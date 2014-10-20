@@ -12,7 +12,7 @@ public class InsideDaBox : MonoBehaviour {
 	void Update () {
 	
 	}
-
+    
     void OnTriggerStay (Collider col)
     {
         if(col.tag == "Player")
@@ -20,7 +20,16 @@ public class InsideDaBox : MonoBehaviour {
             //TODO if car driving towards player
 
             //TODO all car objects kinda
+            GameObject.Find("CC_ME_R4").GetComponent<CarAI>().insideBox = true;
             GameObject.Find("CC_ME_R4").GetComponent<CarAI>().deAccel();
+        }
+    }
+
+    void OnTriggerExit (Collider col)
+    {
+        if(col.tag == "Player")
+        {
+            GameObject.Find("CC_ME_R4").GetComponent<CarAI>().insideBox = false;
         }
     }
 }

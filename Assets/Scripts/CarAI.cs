@@ -8,11 +8,12 @@ public class CarAI : MonoBehaviour {
     public float speed;
 	public float deAccelSpeed = 1;
 	public float accelSpeed = 1;
+    public bool insideBox;
 
 	// Use this for initialization
 	void Start () 
 	{
-        rigidbody.velocity = new Vector3(-speed, 0, 0);
+        rigidbody.velocity = new Vector3(speed * transform.forward.x, 0, 0);
 	}
 	
 	// Update is called once per frame
@@ -21,6 +22,10 @@ public class CarAI : MonoBehaviour {
         {
             transform.position = startRoad.position;
         }
+        if(rigidbody.velocity.magnitude < speed && !insideBox)
+        {
+            accel();
+        }
         //rigidbody.velocity = new Vector3(-speed, 0, 0);
 	}
 
@@ -28,9 +33,9 @@ public class CarAI : MonoBehaviour {
 	public void deAccel()
 	{
 		//for (int i = 0; i > speed; i++) {
-		if (rigidbody.velocity.x < 0) 
+		if (rigidbody.velocity.x * transform.forward.x > 0) 
 		{	
-			rigidbody.velocity += new Vector3 (deAccelSpeed, 0, 0);
+			rigidbody.velocity -= new Vector3 (deAccelSpeed * transform.forward.x, 0, 0);
 		}	
 	
 		//}
@@ -39,9 +44,9 @@ public class CarAI : MonoBehaviour {
 	//accel
 	public void accel()
 	{
-		if (rigidbody.velocity.x < speed * transform.forward.x)
+        if(rigidbody.velocity.x * transform.forward.x < speed)
 		{
-			rigidbody.velocity -= new Vector3(accelSpeed * transform.forward.x, 0,0);
+			rigidbody.velocity += new Vector3(accelSpeed * transform.forward.x, 0,0);
 		}
 	}
 
