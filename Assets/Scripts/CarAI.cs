@@ -26,7 +26,7 @@ public class CarAI : MonoBehaviour {
 	public void deAccel()
 	{
 		//for (int i = 0; i > speed; i++) {
-		if (deAccelSpeed > 0) {	
+		if (rigidbody.velocity.x < 0) {	
 			rigidbody.velocity += new Vector3 (deAccelSpeed, 0, 0);
 		}	
 	
