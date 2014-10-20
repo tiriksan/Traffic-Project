@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TriggerField : MonoBehaviour {
-    ArrayList cars;
+    public List<GameObject> cars;
 	// Use this for initialization
 	void Start () {
-	    cars = new ArrayList();
+	    cars = new List<GameObject>();
 	}
 
     void OnTriggerEnter (Collider col)

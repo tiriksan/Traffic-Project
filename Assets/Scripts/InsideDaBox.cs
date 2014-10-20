@@ -1,27 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InsideDaBox : MonoBehaviour {
+public class InsideDaBox : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-    
+    public Transform[] carField;
+
+    // Use this for initialization
+    void Start ()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+
+    }
+
     void OnTriggerStay (Collider col)
     {
         if(col.tag == "Player")
         {
-            //TODO if car driving towards player
-
-            //TODO all car objects kinda
-            GameObject.Find("CC_ME_R4").GetComponent<CarAI>().insideBox = true;
-            GameObject.Find("CC_ME_R4").GetComponent<CarAI>().deAccel();
+            foreach(Transform transform in carField)
+            {
+                foreach(GameObject gobject in transform.GetComponent<TriggerField>().cars)
+                {
+                    gobject.GetComponent<CarAI>().insideBox = true;
+                    gobject.GetComponent<CarAI>().deAccel();
+                }
+            }
         }
     }
 
@@ -29,7 +37,13 @@ public class InsideDaBox : MonoBehaviour {
     {
         if(col.tag == "Player")
         {
-            GameObject.Find("CC_ME_R4").GetComponent<CarAI>().insideBox = false;
+            foreach(Transform transform in carField)
+            {
+                foreach(GameObject gobject in transform.GetComponent<TriggerField>().cars)
+                {
+                    gobject.GetComponent<CarAI>().insideBox = false;
+                }
+            }
         }
     }
 }
