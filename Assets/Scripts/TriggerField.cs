@@ -23,6 +23,7 @@ public class TriggerField : MonoBehaviour {
         {
             cars.Remove(col.gameObject);
             Debug.Log("Removed car: " + col.gameObject);
+			col.gameObject.GetComponent<CarAI>().insideBox = false;
         }
     }
 }

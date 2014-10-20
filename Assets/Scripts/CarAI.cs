@@ -25,7 +25,7 @@ public class CarAI : MonoBehaviour
         {
             transform.position = startRoad.position;
         }
-        Debug.Log("Velocity: " + rigidbody.velocity.magnitude+ ", inside box: "  +!insideBox + ", inside car field: " +!insideCarField);
+        Debug.Log("Velocity: " + rigidbody.velocity.magnitude+ ", inside box: "  +insideBox + ", inside car field: " +insideCarField);
         if(rigidbody.velocity.magnitude < speed && !insideBox && !insideCarField)
         {
             accel();
@@ -39,7 +39,7 @@ public class CarAI : MonoBehaviour
 
         if(rigidbody.velocity.x * transform.forward.x > 0)
         {
-            rigidbody.velocity -= new Vector3(deAccelSpeed * transform.forward.x, 0, 0);
+            rigidbody.velocity -= new Vector3(deAccelSpeed * transform.forward.x, 0, 0) * Time.deltaTime;
         }
         if((rigidbody.velocity.x * transform.forward.x < 0))
         {
@@ -54,14 +54,14 @@ public class CarAI : MonoBehaviour
     {
         if(rigidbody.velocity.x * transform.forward.x < speed)
         {
-            rigidbody.velocity += new Vector3(accelSpeed * transform.forward.x, 0, 0);
+            rigidbody.velocity += new Vector3(accelSpeed * transform.forward.x, 0, 0) * Time.deltaTime;
         }
     }
 
     //field in front of car
     public void OnTriggerStay (Collider col)
     {
-        if(col.tag == "Car")
+		if(col.tag == "Car" && !col.isTrigger)
         {
             Debug.Log(rigidbody.velocity.magnitude);
             deAccel();
@@ -69,14 +69,14 @@ public class CarAI : MonoBehaviour
     }
     public void OnTriggerEnter (Collider col)
     {
-        if(col.tag == "Car")
+		if(col.tag == "Car" && !col.isTrigger)
         {
             insideCarField = true;
         }
     }
     public void OnTriggerExit (Collider col)
     {
-        if(col.tag == "Car")
+        if(col.tag == "Car" && !col.isTrigger)
         {
             insideCarField = false;
         }
