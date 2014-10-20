@@ -23,10 +23,12 @@ public class CarAI : MonoBehaviour {
 	}
 
 	//deAccel
-	void deAccel()
+	public void deAccel()
 	{
 		//for (int i = 0; i > speed; i++) {
-			rigidbody.velocity -= new Vector3 (deAccelSpeed, 0, 0);
+		if (deAccelSpeed > 0) {	
+			rigidbody.velocity += new Vector3 (deAccelSpeed, 0, 0);
+		}	
 	
 		//}
 	}
