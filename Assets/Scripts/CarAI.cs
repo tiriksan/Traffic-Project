@@ -6,6 +6,7 @@ public class CarAI : MonoBehaviour {
     public Transform startRoad;
     public Transform endRoad;
     public float speed;
+	public float deAccelSpeed = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,16 @@ public class CarAI : MonoBehaviour {
         {
             transform.position = startRoad.position;
         }
-        rigidbody.velocity = new Vector3(-speed, 0, 0);
+        //rigidbody.velocity = new Vector3(-speed, 0, 0);
+	}
+
+	//deAccel
+	void deAccel()
+	{
+		//for (int i = 0; i > speed; i++) {
+			rigidbody.velocity -= new Vector3 (deAccelSpeed, 0, 0);
+	
+		//}
 	}
 
     void OnCollisionEnter (Collision col)
