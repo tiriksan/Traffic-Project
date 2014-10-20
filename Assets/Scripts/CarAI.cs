@@ -20,4 +20,12 @@ public class CarAI : MonoBehaviour {
         }
         rigidbody.velocity = new Vector3(-speed, 0, 0);
 	}
+
+    void OnCollisionEnter (Collision col)
+    {
+        if(col.collider.tag == "Player")
+        {
+            //Player dies...
+        }
+    }
 }
