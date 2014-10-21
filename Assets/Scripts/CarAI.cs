@@ -21,7 +21,9 @@ public class CarAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x < endRoad.position.x)
+
+
+        if (transform.position.x < endRoad.position.x || -transform.position.z * transform.forward.z < -endRoad.position.z * transform.forward.z)
         {
             transform.position = startRoad.position;
         }
@@ -37,11 +39,11 @@ public class CarAI : MonoBehaviour
     public void deAccel()
     {
 
-        if (rigidbody.velocity.x * transform.forward.x > 0)
+        if (rigidbody.velocity.x * transform.forward.x > 0 || rigidbody.velocity.z * transform.forward.z > 0)
         {
-            rigidbody.velocity -= new Vector3(deAccelSpeed * transform.forward.x, 0, 0) * Time.deltaTime;
+            rigidbody.velocity -= new Vector3(deAccelSpeed * transform.forward.x, 0, deAccelSpeed * transform.forward.z) * Time.deltaTime;
         }
-        if ((rigidbody.velocity.x * transform.forward.x < 0))
+        if (rigidbody.velocity.x * transform.forward.x < 0 || rigidbody.velocity.z * transform.forward.z < 0)
         {
             rigidbody.velocity = Vector3.zero;
         }
@@ -52,9 +54,9 @@ public class CarAI : MonoBehaviour
     //accel
     public void accel()
     {
-        if (rigidbody.velocity.x * transform.forward.x < speed)
+        if (rigidbody.velocity.x * transform.forward.x < speed || rigidbody.velocity.z * transform.forward.z < speed)
         {
-            rigidbody.velocity += new Vector3(accelSpeed * transform.forward.x, 0, 0) * Time.deltaTime;
+            rigidbody.velocity += new Vector3(accelSpeed * transform.forward.x, 0, accelSpeed * transform.forward.z) * Time.deltaTime;
         }
     }
 
