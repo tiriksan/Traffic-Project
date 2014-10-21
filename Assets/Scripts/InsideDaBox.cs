@@ -7,24 +7,24 @@ public class InsideDaBox : MonoBehaviour
     public Transform[] carField;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
 
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
 
     }
 
-    void OnTriggerStay (Collider col)
+    void OnTriggerStay(Collider col)
     {
-        if(col.tag == "Player")
+        if (col.tag == "Player")
         {
-            foreach(Transform transform in carField)
+            foreach (Transform transform in carField)
             {
-                foreach(GameObject gobject in transform.GetComponent<TriggerField>().cars)
+                foreach (GameObject gobject in transform.GetComponent<TriggerField>().cars)
                 {
                     gobject.GetComponent<CarAI>().insideBox = true;
                     gobject.GetComponent<CarAI>().deAccel();
@@ -33,13 +33,13 @@ public class InsideDaBox : MonoBehaviour
         }
     }
 
-    void OnTriggerExit (Collider col)
+    void OnTriggerExit(Collider col)
     {
-        if(col.tag == "Player")
+        if (col.tag == "Player")
         {
-            foreach(Transform transform in carField)
+            foreach (Transform transform in carField)
             {
-                foreach(GameObject gobject in transform.GetComponent<TriggerField>().cars)
+                foreach (GameObject gobject in transform.GetComponent<TriggerField>().cars)
                 {
                     gobject.GetComponent<CarAI>().insideBox = false;
                 }
