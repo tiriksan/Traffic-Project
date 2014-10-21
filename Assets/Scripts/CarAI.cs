@@ -15,7 +15,7 @@ public class CarAI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        rigidbody.velocity = new Vector3(speed * transform.forward.x, 0, 0);
+        rigidbody.velocity = new Vector3(speed * transform.forward.x, 0, speed * transform.forward.z);
     }
 
     // Update is called once per frame
