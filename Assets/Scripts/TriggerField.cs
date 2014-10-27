@@ -2,28 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TriggerField : MonoBehaviour {
+public class TriggerField : MonoBehaviour
+{
     public List<GameObject> cars;
-	// Use this for initialization
-	void Start () {
-	    cars = new List<GameObject>();
-	}
-
-    void OnTriggerEnter (Collider col)
+    public bool isActive;
+    // Use this for initialization
+    void Start()
     {
-        if(col.tag == "Car" && !col.isTrigger)
+        cars = new List<GameObject>();
+    }
+
+    void Update()
+    {
+        if (isActive)
+        {
+            foreach (GameObject gobject in cars)
+            {
+                gobject.GetComponent<CarAI>().insideBox = true;
+                gobject.GetComponent<CarAI>().deAccel();
+            }
+        } else
+        {
+            foreach (GameObject gobject in cars)
+            {
+                gobject.GetComponent<CarAI>().insideBox = false;
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Car" && !col.isTrigger)
         {
             cars.Add(col.gameObject);
             Debug.Log("Added car: " + col.gameObject);
         }
     }
-    void OnTriggerExit (Collider col)
+
+    void OnTriggerExit(Collider col)
     {
-        if(col.tag == "Car" && !col.isTrigger)
+        if (col.tag == "Car" && !col.isTrigger)
         {
             cars.Remove(col.gameObject);
             Debug.Log("Removed car: " + col.gameObject);
-			col.gameObject.GetComponent<CarAI>().insideBox = false;
+            col.gameObject.GetComponent<CarAI>().insideBox = false;
         }
     }
 }
