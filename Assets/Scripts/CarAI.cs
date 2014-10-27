@@ -23,11 +23,13 @@ public class CarAI : MonoBehaviour
     {
 
 
-        if (transform.position.x < endRoad.position.x || -transform.position.z * transform.forward.z < -endRoad.position.z * transform.forward.z)
+        if (transform.position.x <= endRoad.position.x && -transform.position.z * transform.forward.z <= -endRoad.position.z * transform.forward.z)
         {
             transform.position = startRoad.position;
+			transform.forward = startRoad.forward;
+			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
         }
-        Debug.Log("Velocity: " + rigidbody.velocity.magnitude + ", inside box: " + insideBox + ", inside car field: " + insideCarField);
+//        Debug.Log("Velocity: " + rigidbody.velocity.magnitude + ", inside box: " + insideBox + ", inside car field: " + insideCarField);
         if (rigidbody.velocity.magnitude < speed && !insideBox && !insideCarField)
         {
             accel();
@@ -65,7 +67,7 @@ public class CarAI : MonoBehaviour
     {
         if (col.tag == "Car" && !col.isTrigger)
         {
-            Debug.Log(rigidbody.velocity.magnitude);
+            //Debug.Log(rigidbody.velocity.magnitude);
             deAccel();
         }
     }
@@ -93,4 +95,21 @@ public class CarAI : MonoBehaviour
             //Player dies...
         }
     }
+
+	public IEnumerator turnLeft(Transform start, Transform end){
+		float r = 0;
+		while(r < 90){
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*25);
+			transform.rotation = Quaternion.Euler(Vector3.up * -r);
+			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+			yield return null;
+		}
+
+		r = 90;
+		transform.rotation = Quaternion.Euler(Vector3.up * -r);
+		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+
+
+		yield return null;
+	}
 }
