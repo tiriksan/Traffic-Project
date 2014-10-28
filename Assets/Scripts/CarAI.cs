@@ -22,7 +22,7 @@ public class CarAI : MonoBehaviour
     void Update()
     {
         //If the car has hit the end of it's path it will be moved to the start
-        if (transform.position.x <= endRoad.position.x && -transform.position.z * transform.forward.z <= -endRoad.position.z * transform.forward.z)
+        if (transform.position.x * -transform.forward.x <= endRoad.position.x * -transform.forward.x && transform.position.z * -transform.forward.z <= endRoad.position.z * -transform.forward.z)
         {
             transform.position = startRoad.position;
 			transform.forward = startRoad.forward;
@@ -107,8 +107,8 @@ public class CarAI : MonoBehaviour
 		float r = 0;
 		while(r < 90){
             //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
-			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius); 
-
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius);
+            
 			transform.rotation = Quaternion.Euler(Vector3.up * -r);
 
             //change the velocity direction to the forward vector of the car
@@ -128,26 +128,28 @@ public class CarAI : MonoBehaviour
 		//find the radius:
 		Vector3 radVect = end - start;
 		//assuming the x and z values are the same:
-		if (radVect.x != radVect.z)
+		if (Mathf.Abs(radVect.x) != Mathf.Abs(radVect.z))
 			Debug.Log("This is not supposed to happen...");
 		
 		float radius = Mathf.Abs(radVect.x);
 		Debug.Log(radius);
-		
+
+        float startRot = transform.rotation.eulerAngles.y;
+
 		//current rotation
-		float r = 0;
-		while(r < 90){
+		float r = startRot;
+		while(r < (90 + startRot)){
 			//rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
-			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius); 
-			
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius);
+            Debug.Log(insideBox + ", " + insideCarField);
 			transform.rotation = Quaternion.Euler(Vector3.up * r);
 			
 			//change the velocity direction to the forward vector of the car
 			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 			yield return null;
 		}
-		//to make sure it doesn't go over 90
-		r = 90;
+		//to make sure it doesn't go over 90 + startRot
+		r = 90 + startRot;
 		transform.rotation = Quaternion.Euler(Vector3.up * r);
 		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 		
