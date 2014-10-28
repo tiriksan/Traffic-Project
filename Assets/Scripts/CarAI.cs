@@ -108,20 +108,20 @@ public class CarAI : MonoBehaviour
         //current rotation
         float r = Mathf.Round(startRot);
         Debug.Log("r: " + r);
-        while (r < (90 + startRot))
+        while (r > (-90 + startRot))
         {
             //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
-            r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime / (Mathf.PI * radius);
+            r -= 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime / (Mathf.PI * radius);
             Debug.Log(insideBox + ", " + insideCarField);
-            transform.rotation = Quaternion.Euler(Vector3.up * -r);
+            transform.rotation = Quaternion.Euler(Vector3.up * r);
 
             //change the velocity direction to the forward vector of the car
             rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
             yield return null;
         }
         //to make sure it doesn't go over 90 + startRot
-        r = 90 + startRot;
-        transform.rotation = Quaternion.Euler(Vector3.up * (int)-r);
+        r = -90 + startRot;
+        transform.rotation = Quaternion.Euler(Vector3.up * (int)r);
         transform.forward = new Vector3(Mathf.Round(transform.forward.x), 0, Mathf.Round(transform.forward.z));
         rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 		
