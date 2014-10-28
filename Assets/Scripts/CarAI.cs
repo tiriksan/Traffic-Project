@@ -123,4 +123,35 @@ public class CarAI : MonoBehaviour
 
 		yield return null;
 	}
+
+	public IEnumerator turnLeft(Vector3 start, Vector3 end){
+		//find the radius:
+		Vector3 radVect = end - start;
+		//assuming the x and z values are the same:
+		if (radVect.x != radVect.z)
+			Debug.Log("This is not supposed to happen...");
+		
+		float radius = Mathf.Abs(radVect.x);
+		Debug.Log(radius);
+		
+		//current rotation
+		float r = 0;
+		while(r < 90){
+			//rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius); 
+			
+			transform.rotation = Quaternion.Euler(Vector3.up * r);
+			
+			//change the velocity direction to the forward vector of the car
+			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+			yield return null;
+		}
+		//to make sure it doesn't go over 90
+		r = 90;
+		transform.rotation = Quaternion.Euler(Vector3.up * r);
+		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+		
+		
+		yield return null;
+	}
 }
