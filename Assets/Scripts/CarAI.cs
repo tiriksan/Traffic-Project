@@ -137,7 +137,8 @@ public class CarAI : MonoBehaviour
         float startRot = transform.rotation.eulerAngles.y;
 
 		//current rotation
-		float r = startRot;
+		float r = Mathf.Round(startRot);
+        Debug.Log("r: " + r);
 		while(r < (90 + startRot)){
 			//rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
 			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius);
@@ -150,7 +151,8 @@ public class CarAI : MonoBehaviour
 		}
 		//to make sure it doesn't go over 90 + startRot
 		r = 90 + startRot;
-		transform.rotation = Quaternion.Euler(Vector3.up * r);
+		transform.rotation = Quaternion.Euler(Vector3.up * (int)r);
+        transform.forward = new Vector3(Mathf.Round(transform.forward.x), 0, Mathf.Round(transform.forward.z));
 		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 		
 		
