@@ -32,7 +32,7 @@ public class TriggerField : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Car" && !col.isTrigger)
+        if (col.tag.Contains("Car") && !col.isTrigger)
         {
             cars.Add(col.gameObject);
             Debug.Log("Added car: " + col.gameObject);
@@ -41,7 +41,7 @@ public class TriggerField : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Car" && !col.isTrigger)
+        if (col.tag.Contains("Car") && !col.isTrigger)
         {
             cars.Remove(col.gameObject);
             Debug.Log("Removed car: " + col.gameObject);

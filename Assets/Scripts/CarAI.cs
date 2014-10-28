@@ -21,20 +21,16 @@ public class CarAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
+        //If the car has hit the end of it's path it will be moved to the start
         if (transform.position.x <= endRoad.position.x && -transform.position.z * transform.forward.z <= -endRoad.position.z * transform.forward.z)
         {
             transform.position = startRoad.position;
 			transform.forward = startRoad.forward;
 			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
         }
-//        Debug.Log("Velocity: " + rigidbody.velocity.magnitude + ", inside box: " + insideBox + ", inside car field: " + insideCarField);
+        //If the char hasn't hit it's max speed or is not inside a deAccel field it will accel
         if (rigidbody.velocity.magnitude < speed && !insideBox && !insideCarField)
-        {
             accel();
-        }
-        //rigidbody.velocity = new Vector3(-speed, 0, 0);
     }
 
     //deAccel
@@ -65,16 +61,17 @@ public class CarAI : MonoBehaviour
     //field in front of car
     public void OnTriggerStay(Collider col)
     {
-        if (col.tag == "Car" && !col.isTrigger)
+        if (col.tag.Contains("Car") && !col.isTrigger)
         {
             //Debug.Log(rigidbody.velocity.magnitude);
             deAccel();
         }
     }
 
+    //If a car is in front of this car, it will deAccel
     public void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Car" && !col.isTrigger)
+        if (col.tag.Contains("Car") && !col.isTrigger)
         {
             insideCarField = true;
         }
@@ -82,7 +79,7 @@ public class CarAI : MonoBehaviour
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Car" && !col.isTrigger)
+        if (col.tag.Contains("Car") && !col.isTrigger)
         {
             insideCarField = false;
         }
@@ -97,15 +94,28 @@ public class CarAI : MonoBehaviour
     }
 
 	public IEnumerator turnLeft(Vector3 start, Vector3 end){
+        //find the radius:
+        Vector3 radVect = end - start;
+        //assuming the x and z values are the same:
+        if (radVect.x != radVect.z)
+            Debug.Log("This is not supposed to happen...");
+        
+        float radius = Mathf.Abs(radVect.x);
+        Debug.Log(radius);
+
+        //current rotation
 		float r = 0;
 		while(r < 90){
             //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
-			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*25); 
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius); 
+
 			transform.rotation = Quaternion.Euler(Vector3.up * -r);
+
+            //change the velocity direction to the forward vector of the car
 			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 			yield return null;
 		}
-
+        //to make sure it doesn't go over 90
 		r = 90;
 		transform.rotation = Quaternion.Euler(Vector3.up * -r);
 		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
