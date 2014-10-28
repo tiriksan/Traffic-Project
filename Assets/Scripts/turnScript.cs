@@ -29,7 +29,7 @@ public class turnScript : MonoBehaviour
             }
             if (col.tag.Contains("R"))
             {
-     //           StartCoroutine(col.GetComponent<CarAI>().turnRight(start.position, end.position));
+                StartCoroutine(col.GetComponent<CarAI>().turnRight(start.position, end.position));
             }
         }
     }

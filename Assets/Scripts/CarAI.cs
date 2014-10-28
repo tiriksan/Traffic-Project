@@ -124,7 +124,7 @@ public class CarAI : MonoBehaviour
 		yield return null;
 	}
 
-	public IEnumerator turnLeft(Vector3 start, Vector3 end){
+	public IEnumerator turnRight(Vector3 start, Vector3 end){
 		//find the radius:
 		Vector3 radVect = end - start;
 		//assuming the x and z values are the same:
