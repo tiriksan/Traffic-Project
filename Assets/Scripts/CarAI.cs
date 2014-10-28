@@ -96,10 +96,11 @@ public class CarAI : MonoBehaviour
         }
     }
 
-	public IEnumerator turnLeft(Transform start, Transform end){
+	public IEnumerator turnLeft(Vector3 start, Vector3 end){
 		float r = 0;
 		while(r < 90){
-			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*25);
+            //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
+			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*25); 
 			transform.rotation = Quaternion.Euler(Vector3.up * -r);
 			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
 			yield return null;
