@@ -36,7 +36,7 @@ public class turnScript : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        Debug.Log("EXIT");
+ //       Debug.Log("EXIT");
 
 
     }

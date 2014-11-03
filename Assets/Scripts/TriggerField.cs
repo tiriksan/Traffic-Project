@@ -35,7 +35,7 @@ public class TriggerField : MonoBehaviour
         if (col.tag.Contains("Car") && !col.isTrigger)
         {
             cars.Add(col.gameObject);
-            Debug.Log("Added car: " + col.gameObject);
+   //         Debug.Log("Added car: " + col.gameObject);
         }
     }
 
@@ -44,7 +44,7 @@ public class TriggerField : MonoBehaviour
         if (col.tag.Contains("Car") && !col.isTrigger)
         {
             cars.Remove(col.gameObject);
-            Debug.Log("Removed car: " + col.gameObject);
+     //       Debug.Log("Removed car: " + col.gameObject);
             col.gameObject.GetComponent<CarAI>().insideBox = false;
         }
     }

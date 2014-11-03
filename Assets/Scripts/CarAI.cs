@@ -21,6 +21,7 @@ public class CarAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       // Debug.Log(rigidbody.velocity.magnitude);
         //If the car has hit the end of it's path it will be moved to the start
         if (transform.position.x * -transform.forward.x <= endRoad.position.x * -transform.forward.x && transform.position.z * -transform.forward.z <= endRoad.position.z * -transform.forward.z)
         {
