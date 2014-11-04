@@ -17,7 +17,7 @@ public class splashScreen : MonoBehaviour {
 	void Update () {
 		if(dead){
 			Debug.Log("you're dead, huehue");
-			stats.renderer.enabled = true;
+			this.renderer.enabled = true;
 			//this.enabled = true;
 
 
