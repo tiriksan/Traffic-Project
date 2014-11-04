@@ -3,6 +3,7 @@ using System.Collections;
 
 public class splashScreen : MonoBehaviour {
 
+	public Transform stats;
 	public static bool dead;
 	private int deaths;
 	private int score;
@@ -14,10 +15,16 @@ public class splashScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(dead){
+			Debug.Log("you're dead, huehue");
+			stats.renderer.enabled = true;
+			//this.enabled = true;
+
+
+		}
 	}
 
-	void OnGUI(){
-	
-	}
+
+
+
 }
