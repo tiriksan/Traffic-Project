@@ -21,13 +21,13 @@ public class CarAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // Debug.Log(rigidbody.velocity.magnitude);
+        // Debug.Log(rigidbody.velocity.magnitude);
         //If the car has hit the end of it's path it will be moved to the start
         if (transform.position.x * -transform.forward.x <= endRoad.position.x * -transform.forward.x && transform.position.z * -transform.forward.z <= endRoad.position.z * -transform.forward.z)
         {
             transform.position = new Vector3(startRoad.position.x, transform.position.y, startRoad.position.z);
-			transform.forward = startRoad.forward;
-			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+            transform.forward = startRoad.forward;
+            rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
         }
         //If the char hasn't hit it's max speed or is not inside a deAccel field it will accel
         if (rigidbody.velocity.magnitude < speed && !insideBox && !insideCarField)
@@ -90,17 +90,18 @@ public class CarAI : MonoBehaviour
     {
         if (col.collider.tag == "Player")
         {
-            //Player dies...
+            splashScreen.dead = true;
         }
     }
 
-	public IEnumerator turnLeft(Vector3 start, Vector3 end){
+    public IEnumerator turnLeft(Vector3 start, Vector3 end)
+    {
         //find the radius:
         Vector3 radVect = end - start;
         //assuming the x and z values are the same:
-        if (radVect.x != radVect.z)
+    /*    if (radVect.x != radVect.z)
             Debug.Log("This is not supposed to happen...");
-
+        */
         float radius = Mathf.Abs(radVect.x);
         Debug.Log(radius);
 
@@ -113,7 +114,7 @@ public class CarAI : MonoBehaviour
         {
             //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
             r -= 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime / (Mathf.PI * radius);
-            Debug.Log(insideBox + ", " + insideCarField);
+            //      Debug.Log(insideBox + ", " + insideCarField);
             transform.rotation = Quaternion.Euler(Vector3.up * r);
 
             //change the velocity direction to the forward vector of the car
@@ -125,42 +126,44 @@ public class CarAI : MonoBehaviour
         transform.rotation = Quaternion.Euler(Vector3.up * (int)r);
         transform.forward = new Vector3(Mathf.Round(transform.forward.x), 0, Mathf.Round(transform.forward.z));
         rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
-		
-		
-	}
 
-	public IEnumerator turnRight(Vector3 start, Vector3 end){
-		//find the radius:
-		Vector3 radVect = end - start;
-		//assuming the x and z values are the same:
-		if (Mathf.Abs(radVect.x) != Mathf.Abs(radVect.z))
-			Debug.Log("This is not supposed to happen...");
-		
-		float radius = Mathf.Abs(radVect.x);
-		Debug.Log(radius);
+
+    }
+
+    public IEnumerator turnRight(Vector3 start, Vector3 end)
+    {
+        //find the radius:
+        Vector3 radVect = end - start;
+        //assuming the x and z values are the same:
+        if (Mathf.Abs(radVect.x) != Mathf.Abs(radVect.z))
+            Debug.Log("This is not supposed to happen...");
+
+        float radius = Mathf.Abs(radVect.x);
+        //	Debug.Log(radius);
 
         float startRot = transform.rotation.eulerAngles.y;
 
-		//current rotation
-		float r = Mathf.Round(startRot);
-        Debug.Log("r: " + r);
-		while(r < (90 + startRot)){
-			//rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
-			r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime/(Mathf.PI*radius);
-            Debug.Log(insideBox + ", " + insideCarField);
-			transform.rotation = Quaternion.Euler(Vector3.up * r);
-			
-			//change the velocity direction to the forward vector of the car
-			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
-			yield return null;
-		}
-		//to make sure it doesn't go over 90 + startRot
-		r = 90 + startRot;
-		transform.rotation = Quaternion.Euler(Vector3.up * (int)r);
+        //current rotation
+        float r = Mathf.Round(startRot);
+        //     Debug.Log("r: " + r);
+        while (r < (90 + startRot))
+        {
+            //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
+            r += 90 * (rigidbody.velocity.magnitude) * 2 * Time.deltaTime / (Mathf.PI * radius);
+       //     Debug.Log(insideBox + ", " + insideCarField);
+            transform.rotation = Quaternion.Euler(Vector3.up * r);
+
+            //change the velocity direction to the forward vector of the car
+            rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+            yield return null;
+        }
+        //to make sure it doesn't go over 90 + startRot
+        r = 90 + startRot;
+        transform.rotation = Quaternion.Euler(Vector3.up * (int)r);
         transform.forward = new Vector3(Mathf.Round(transform.forward.x), 0, Mathf.Round(transform.forward.z));
-		rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
-		
-		
-		yield return null;
-	}
+        rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
+
+
+        yield return null;
+    }
 }
