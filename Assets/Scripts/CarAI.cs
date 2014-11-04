@@ -25,7 +25,7 @@ public class CarAI : MonoBehaviour
         //If the car has hit the end of it's path it will be moved to the start
         if (transform.position.x * -transform.forward.x <= endRoad.position.x * -transform.forward.x && transform.position.z * -transform.forward.z <= endRoad.position.z * -transform.forward.z)
         {
-            transform.position = startRoad.position;
+            transform.position = new Vector3(startRoad.position.x, transform.position.y, startRoad.position.z);
 			transform.forward = startRoad.forward;
 			rigidbody.velocity = transform.forward * rigidbody.velocity.magnitude;
         }
