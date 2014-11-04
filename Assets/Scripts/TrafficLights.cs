@@ -113,6 +113,12 @@ public class TrafficLights : MonoBehaviour
 
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
+                //TODO:
+                /*
+                foreach (AudioSource audio in pedestrianSound)
+                {
+                    audio.Play(0);
+                }*/
                 
                 offsetDone = true;
             }
@@ -136,9 +142,13 @@ public class TrafficLights : MonoBehaviour
 
             redPL.shader = diffuse;
             greenPL.shader = emitter;
+
+            //TODO:
+            /*
             foreach(AudioSource audio in pedestrianSound){
-                audio.Play();
+                audio.Play(0);
             }
+             * */
         }
         else
         {
