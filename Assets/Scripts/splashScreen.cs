@@ -42,6 +42,7 @@ public class splashScreen : MonoBehaviour {
 		}
 			this.renderer.enabled = true;
 			screen.gameObject.SetActive(true);
+			this.GetComponent<TextMesh>().color = Color.red;
 			this.GetComponent<TextMesh>().text = death_msg;
 
 		}
@@ -53,6 +54,7 @@ public class splashScreen : MonoBehaviour {
 			}
 			this.renderer.enabled = true;
 			screen.gameObject.SetActive(true);
+			this.GetComponent<TextMesh>().color = Color.green;
 			this.GetComponent<TextMesh().text = victory_msg;
 		}
 
