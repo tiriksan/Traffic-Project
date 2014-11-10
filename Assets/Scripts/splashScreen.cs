@@ -5,9 +5,19 @@ public class splashScreen : MonoBehaviour {
 
 	public Transform stats;
 	public Transform screen;
+
 	public static bool dead;
-	private static int deaths = 1;
-	private int score;
+	public static bool victory;
+	private static int deaths = 0;
+	private int score = 0;
+
+	private string death_msg = "You're injured!\nyou've been\n hit " + deaths
+		+ " times\n wait to respawn..";
+	private string victory_msg = "Congratulations";
+
+	public AudioSource[] audio;
+	private bool playSound;
+	AudioClip crashSound;
 
 	//public static Transform[] allChildren = GetComponentsInChildren<Transform>();
 
@@ -18,37 +28,41 @@ public class splashScreen : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-		score = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		this.renderer.enabled = false;
-		//gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
 
 		if(dead){
-
-			Debug.Log("deaths : " + deaths);
+			if(!playSound){
+				audio[0].Play();
+				playSound = true;
+				deaths++;
+		}
 			this.renderer.enabled = true;
 			screen.gameObject.SetActive(true);
+			this.GetComponent<TextMesh>().text = death_msg;
 
-			this.GetComponent<TextMesh>().text = "You're injured!\nyou've been hit\n " + deaths
-				+ " times\n wait to respawn..";
-
-			Invoke("Respawn",3);
 		}
+		if(victory){
+			if(!playSound){
+				audio[1].Play();
+				playSound = true;
+				score++;
+			}
+			this.renderer.enabled = true;
+			screen.gameObject.SetActive(true);
+			this.GetComponent<TextMesh().text = victory_msg;
+		}
+
+		Invoke("Respawn",5);
 	}
 
 	void Respawn(){
-		if(dead){
 			dead = false;
-			//Application.LoadLevelAdditive(0);
-			deaths++;
-			Debug.Log ("death" + deaths);
+			playSound = false;
 			Application.LoadLevel(0);
-
-		}
 	}
 
 
