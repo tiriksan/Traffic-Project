@@ -14,27 +14,41 @@ public class SocketReader : MonoBehaviour
     NetworkStream stream;
     StreamReader reader;
 
-    bool socketReady;
+    public bool socketReady { get; private set; }
+
+    public Vector3[] points { get; private set; }
+    public int pointNr { get; private set; }
 
 
     // Use this for initialization
     void Start()
     {
-        setupSocket();
+        socketReady = setupSocket();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (stream.DataAvailable) { 
-            string read  = reader.ReadLine();
-            
+        if (stream.DataAvailable)
+        {
+            //read a line that contains the new vertex
+            string read = reader.ReadLine();
+
+            //each vertex is split with a space
             string[] split = read.Split(' ');
+
+            //If the points array is not instantiated yet
+            if (points == null)
+                points = new Vector3[split.Length];
+
+            //create a vertex object from the string array
             for (int i = 0; i < 3; i++)
             {
-                transform.position = new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
+                points[0 /*TODO: if more than one marker */] = new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
             }
+            //Notifies the playerController that a new vertex has arrived
+            pointNr++;
         }
     }
 
@@ -57,7 +71,7 @@ public class SocketReader : MonoBehaviour
 
     void OnApplicationExit()
     {
-
+        closeSocket();
     }
 
     void closeSocket()
