@@ -45,6 +45,8 @@ public class splashScreen : MonoBehaviour {
 			this.GetComponent<TextMesh>().color = Color.red;
 			this.GetComponent<TextMesh>().text = death_msg;
 
+			Invoke("Respawn",5);
+
 		}
 		if(victory){
 			if(!playSound){
@@ -55,13 +57,16 @@ public class splashScreen : MonoBehaviour {
 			this.renderer.enabled = true;
 			screen.gameObject.SetActive(true);
 			this.GetComponent<TextMesh>().color = Color.green;
-			this.GetComponent<TextMesh().text = victory_msg;
+			this.GetComponent<TextMesh>().text = victory_msg;
+
+			Invoke("Respawn",5);
 		}
 
-		Invoke("Respawn",5);
+
 	}
 
 	void Respawn(){
+			victory = false;
 			dead = false;
 			playSound = false;
 			Application.LoadLevel(0);
