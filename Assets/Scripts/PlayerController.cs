@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
             mLeftRight = Input.GetAxis("Mouse X");
             mUpDown = Input.GetAxis("Mouse Y");
 
-            Debug.Log(mUpDown);
+//            Debug.Log(mUpDown);
             rigidbody.MoveRotation(Quaternion.Euler((rigidbody.rotation.eulerAngles + mouseSense * mLeftRight * Vector3.up)));
 
             oculus.eulerAngles = oculus.eulerAngles + Vector3.right * mUpDown * mouseSense;// = Quaternion.Euler(oculus.localRotation.eulerAngles + mUpDown * Vector3.right * mouseSense);
