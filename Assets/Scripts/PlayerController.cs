@@ -19,10 +19,8 @@ public class PlayerController : MonoBehaviour
     float upDown;
 
     float mLeftRight;
-    float mUpDown;
-
+  
     public bool canMove = true;
-    public Transform oculus;
 
 
     // Use this for initialization
@@ -39,13 +37,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (useSocketReader && socketReader.socketReady)
-        {
             SocketMove();
-        }
+        
         else
-        {
             KeyboardMove();
-        }
     }
 
     void SocketMove()
@@ -73,15 +68,13 @@ public class PlayerController : MonoBehaviour
             upDown = Input.GetAxis("Vertical");
 
             mLeftRight = Input.GetAxis("Mouse X");
-            mUpDown = Input.GetAxis("Mouse Y");
-
-            Debug.Log(mUpDown);
+      
+            //rotate left/right           
             rigidbody.MoveRotation(Quaternion.Euler((rigidbody.rotation.eulerAngles + mouseSense * mLeftRight * Vector3.up)));
 
-            oculus.eulerAngles = oculus.eulerAngles + Vector3.right * mUpDown * mouseSense;// = Quaternion.Euler(oculus.localRotation.eulerAngles + mUpDown * Vector3.right * mouseSense);
-            //Debug.Log(oculus.rotation.eulerAngles);
+            //move the rigidbody
             rigidbody.MovePosition(rigidbody.position + (transform.forward * upDown + leftRight * transform.right).normalized * speed * Time.deltaTime);
-
+            
 
         }
 
