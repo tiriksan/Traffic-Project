@@ -15,7 +15,7 @@ public class VictoryTrigger : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            col.rigidbody.AddForce(Vector3.up * 20);
+            col.rigidbody.AddForce(Vector3.up * 15);
         }
     }
 }

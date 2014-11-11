@@ -108,11 +108,15 @@ public class splashScreen : MonoBehaviour {
 	}
 
 	void Respawn(){
-		victory = false;
+
 		dead = false;
 		playSound = false;
 
-		checkScenario();
+		if(victory){
+			checkScenario();
+			victory = false;
+		}
+
 
 		Application.LoadLevel(0);
 
