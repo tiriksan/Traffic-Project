@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public Transform rightCamera;
+
     public float speed = 1;
 
     //SocketMove
@@ -73,7 +75,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.MoveRotation(Quaternion.Euler((rigidbody.rotation.eulerAngles + mouseSense * mLeftRight * Vector3.up)));
 
             //move the rigidbody
-            rigidbody.MovePosition(rigidbody.position + (transform.forward * upDown + leftRight * transform.right).normalized * speed * Time.deltaTime);
+            rigidbody.MovePosition(rigidbody.position + (rightCamera.forward * upDown + leftRight * rightCamera.right).normalized * speed * Time.deltaTime);
             
 
         }
