@@ -11,8 +11,13 @@ public class splashScreen : MonoBehaviour {
 	private static int deaths = 0;
 	private static int score = 0;
 
+	private Color colorBack = new Color(0.1f,0.1f,0.1f,0.8f); //background color screen
+
 	private string death_msg;
 	private string victory_msg;
+	private string sc_1 = "Scenario 1\nWait for cars to stop\n before you can \n cross the road..";
+	private string sc_2 = "Scenario 2\nStay in the zone\nwait for green man..";
+	private string sc_3 = "Scenario 3\nWait for green man ..";
 
 	public AudioSource[] audio;
 	private bool playSound;
@@ -37,31 +42,35 @@ public class splashScreen : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if(scenario1){
-			this.transform.parent.transform.parent.position = spawnPoint1;
+			this.transform.parent.transform.parent.transform.parent.position = spawnPoint1;
 			particles[0].gameObject.SetActive(true);
+
 		}else if(scenario2){
-			this.transform.parent.transform.parent.position = spawnPoint2;
+			this.transform.parent.transform.parent.transform.parent.position = spawnPoint2;
 			particles[1].gameObject.SetActive(true);
 		}else{
-			this.transform.parent.transform.parent.position = spawnPoint3;
+			this.transform.parent.transform.parent.transform.parent.position = spawnPoint3;
 			particles[2].gameObject.SetActive(true);
 		}
+		StartCoroutine(quest());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		this.renderer.enabled = false;
+		//this.renderer.enabled = false;
 
 		if(dead){
 			if(!playSound){
 				audio[0].Play();
 				playSound = true;
 				deaths++;
-				death_msg = "You're injured!\nyou've been\n hit " + deaths
-					+ " times\n wait to respawn..";
+				death_msg = "You're injured!\n injuries : " + deaths
+					+ "\n wait to respawn..";
 			}
 
+			screen.gameObject.renderer.material.color = colorBack;
 			screen.gameObject.SetActive(true);
+			this.GetComponent<TextMesh>().characterSize = 0.6f;
 			this.GetComponent<TextMesh>().color = Color.red;
 			this.GetComponent<TextMesh>().text = death_msg;
 			this.renderer.enabled = true;
@@ -79,8 +88,10 @@ public class splashScreen : MonoBehaviour {
 				//scenario1 = true;
 			}
 
+			screen.gameObject.renderer.material.color = colorBack;
 			screen.gameObject.SetActive(true);
-			this.GetComponent<TextMesh>().color = Color.green;
+			this.GetComponent<TextMesh>().characterSize = 0.6f;
+			this.GetComponent<TextMesh>().color = Color.yellow;
 			this.GetComponent<TextMesh>().text = victory_msg;
 			this.renderer.enabled = true;
 
@@ -121,6 +132,34 @@ public class splashScreen : MonoBehaviour {
 		Application.LoadLevel(0);
 
 	}
+
+
+	IEnumerator quest(){
+		//sc_1 = "test test";
+		float currentTime = 0;
+
+		screen.gameObject.renderer.material.color = colorBack;
+		screen.gameObject.SetActive(true);
+		this.GetComponent<TextMesh>().color = Color.cyan;
+		this.GetComponent<TextMesh>().text = sc_1;
+		this.renderer.enabled = true;
+
+		while(currentTime < 8){
+			float transparency = 1 - (currentTime/8);
+			Color test = screen.gameObject.renderer.material.color;
+			test.a = transparency;
+			screen.gameObject.renderer.material.color = test;
+			currentTime += Time.deltaTime;
+			yield return null;
+		}
+		this.renderer.enabled = false;
+
+		yield return null;
+	}
+
+
+			
+
 
 
 
