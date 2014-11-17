@@ -28,7 +28,7 @@ public class splashScreen : MonoBehaviour {
 	public static bool scenario3;	//-30,2,-15 | Main crossroad
 
 	public static Vector3 spawnPoint1 = new Vector3(-150,2,-15);
-	public static Vector3 spawnPoint2 = new Vector3(-20,2,190);
+	public static Vector3 spawnPoint2 = new Vector3(-20,2,175);
 	public static Vector3 spawnPoint3 = new Vector3(-30,2,-15);
 
 	public GameObject[] particles;
