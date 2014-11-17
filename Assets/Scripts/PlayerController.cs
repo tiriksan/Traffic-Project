@@ -75,7 +75,9 @@ public class PlayerController : MonoBehaviour
             rigidbody.MoveRotation(Quaternion.Euler((rigidbody.rotation.eulerAngles + mouseSense * mLeftRight * Vector3.up)));
 
             //move the rigidbody
-            rigidbody.MovePosition(rigidbody.position + (rightCamera.forward * upDown + leftRight * rightCamera.right).normalized * speed * Time.deltaTime);
+            Vector3 fwd = new Vector3(rightCamera.forward.x, 0, rightCamera.forward.z);
+            Vector3 right = new Vector3(rightCamera.right.x, 0, rightCamera.right.z);
+            rigidbody.MovePosition(rigidbody.position + (fwd * upDown + leftRight * right).normalized * speed * Time.deltaTime);
             
 
         }
