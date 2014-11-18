@@ -63,7 +63,7 @@ public class TrafficLights : MonoBehaviour
         PLMats[0] = originalMats[5];
         PLMats[1] = greenPL;
         PLMats[2] = redPL;
-        
+
 
 
         redPL.shader = emitter; //start with red light
@@ -101,6 +101,14 @@ public class TrafficLights : MonoBehaviour
     {
         //        Debug.Log(timer);
         timer += Time.deltaTime;
+
+        //if 1 sec untill offset is done -> change to yellow light
+
+        if (timer < offsetTime && timer + 1 > offsetTime)
+        {
+            redTL.shader = diffuse;
+            yellowTL.shader = emitter;
+        }
         if (timer > offsetTime)
         {
             if (!offsetDone)
@@ -108,7 +116,7 @@ public class TrafficLights : MonoBehaviour
 
                 triggerField.GetComponent<TriggerField>().isActive = false;
 
-                redTL.shader = diffuse;
+                yellowTL.shader = diffuse;
                 greenTL.shader = emitter;
 
                 redPL.shader = diffuse;
@@ -119,7 +127,7 @@ public class TrafficLights : MonoBehaviour
                 {
                     audio.Play(0);
                 }*/
-                
+
                 offsetDone = true;
             }
             else
@@ -132,6 +140,10 @@ public class TrafficLights : MonoBehaviour
 
     public void checkLight()
     {
+
+        //timer - offset = currentTime
+        //interval + durationTime -> the length of a red+green loop
+        //
 
         if ((timer - offsetTime) % (interval + durationTime) < durationTime)
         {
@@ -152,12 +164,29 @@ public class TrafficLights : MonoBehaviour
         }
         else
         {
-            triggerField.GetComponent<TriggerField>().isActive = true;
-            redTL.shader = emitter;
-            greenTL.shader = diffuse;
+            //change from green to yellow
+            if ((timer - offsetTime) % (interval + durationTime) < durationTime + 1)
+            {
+                yellowTL.shader = emitter;
+                greenTL.shader = diffuse;
+            }
+            //change from red to yellow
+            else if ((timer - offsetTime) % (interval + durationTime) > (durationTime + interval - 1))
+            {
+                redTL.shader = diffuse;
+                yellowTL.shader = emitter;
+            }
+            //set red light
+            else
+            {
+                
+                redTL.shader = emitter;
+                greenTL.shader = diffuse;
 
-            redPL.shader = emitter;
-            greenPL.shader = diffuse;
+                redPL.shader = emitter;
+                greenPL.shader = diffuse;
+            }
+            triggerField.GetComponent<TriggerField>().isActive = true;
         }
     }
 
