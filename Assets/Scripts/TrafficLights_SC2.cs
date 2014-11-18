@@ -81,14 +81,14 @@ public class TrafficLights_SC2 : MonoBehaviour {
 			redTL.shader = diffuse;
 			greenTL.shader = emitter;
 			
-			redPL.shader = diffuse;
-			greenPL.shader = emitter;
+			redPL.shader = emitter;
+			greenPL.shader = diffuse;
 		}else{
 			redTL.shader = emitter;
 			greenTL.shader = diffuse;
 			
-			redPL.shader = emitter;
-			greenPL.shader = diffuse;
+			redPL.shader = diffuse;
+			greenPL.shader = emitter;
 		}
 	}
 }
