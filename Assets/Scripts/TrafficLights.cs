@@ -151,10 +151,18 @@ public class TrafficLights : MonoBehaviour
             triggerField.GetComponent<TriggerField>().isActive = false;
             yellowTL.shader = diffuse;
             greenTL.shader = emitter;
-
-            redPL.shader = diffuse;
-            greenPL.shader = emitter;
-
+            if ((timer - offsetTime) % (interval + durationTime) > durationTime * 2 / 3) //flashing green man
+            {
+                if ((timer - offsetTime)*50 % 40 >= 30)
+                    greenPL.shader = diffuse;
+                else
+                    greenPL.shader = emitter;
+            }
+            else
+            {
+                redPL.shader = diffuse;
+                greenPL.shader = emitter;
+            }
             //TODO:
             /*
             foreach(AudioSource audio in pedestrianSound){
@@ -179,7 +187,7 @@ public class TrafficLights : MonoBehaviour
             //set red light
             else
             {
-                
+
                 redTL.shader = emitter;
                 yellowTL.shader = diffuse;
 
