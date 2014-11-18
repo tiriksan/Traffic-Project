@@ -18,7 +18,7 @@ public class Pedestrian : MonoBehaviour {
 
 	void OnTriggerStay(Collider col){
 		if(splashScreen.scenario1){
-			if(col.tag = "Player"){
+			if(col.tag == "Player"){
 				triggerField.isActive = true;
 			}
 		}
