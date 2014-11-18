@@ -149,7 +149,7 @@ public class TrafficLights : MonoBehaviour
         {
 
             triggerField.GetComponent<TriggerField>().isActive = false;
-            redTL.shader = diffuse;
+            yellowTL.shader = diffuse;
             greenTL.shader = emitter;
 
             redPL.shader = diffuse;
@@ -181,7 +181,7 @@ public class TrafficLights : MonoBehaviour
             {
                 
                 redTL.shader = emitter;
-                greenTL.shader = diffuse;
+                yellowTL.shader = diffuse;
 
                 redPL.shader = emitter;
                 greenPL.shader = diffuse;
