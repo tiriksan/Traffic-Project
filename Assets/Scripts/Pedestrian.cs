@@ -6,9 +6,10 @@ public class Pedestrian : MonoBehaviour {
 	public bool isPushed;
 
 	public TriggerField triggerField;
+    public TrafficLights_SC2 TL;
 	// Use this for initialization
 	void Start () {
-	
+        TL = GetComponent<TrafficLights_SC2>();
 	}
 	
 	// Update is called once per frame
@@ -45,12 +46,17 @@ public class Pedestrian : MonoBehaviour {
 	IEnumerator PushAndWait(){
 		int waitTime = Random.Range(3,10);
 		isPushed = true;
-		yield return new WaitForSeconds(waitTime);
+		yield return new WaitForSeconds(waitTime-1);
+        TL.currState = TrafficLights_SC2.state.yellow;
+        yield return new WaitForSeconds(1);
+        TL.currState = TrafficLights_SC2.state.green;
 		Debug.Log("waitTime :" + waitTime + " " + isPushed);
 		triggerField.isActive = true;
-		
-		yield return new WaitForSeconds(15);
-		triggerField.isActive = false;
+		yield return new WaitForSeconds(14);
+        TL.currState = TrafficLights_SC2.state.yellow;
+        yield return new WaitForSeconds(1);
+        TL.currState = TrafficLights_SC2.state.red;
+        triggerField.isActive = false;
 			isPushed = false;
 	}
 }

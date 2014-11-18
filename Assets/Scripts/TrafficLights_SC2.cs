@@ -3,10 +3,13 @@ using System.Collections;
 
 public class TrafficLights_SC2 : MonoBehaviour {
 
-	public TriggerField triggerField;
-
 	public bool carLight;
 	public bool pedestrianLight;
+
+
+    public enum state{green, yellow, red};
+    public state currState = state.red;
+
 
 	public GameObject[] trafficLObjects;
 	public GameObject[] pedestrianLObjects;
@@ -77,18 +80,26 @@ public class TrafficLights_SC2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!triggerField.isActive){
-			redTL.shader = diffuse;
-			greenTL.shader = emitter;
-			
+		if(currState == state.green){
+            redTL.shader = diffuse;
+            greenTL.shader = emitter;
+            yellowTL.shader = diffuse;
+
 			redPL.shader = emitter;
 			greenPL.shader = diffuse;
-		}else{
-			redTL.shader = emitter;
+		}else if(currState == state.yellow){
+			redTL.shader = diffuse;
 			greenTL.shader = diffuse;
-			
-			redPL.shader = diffuse;
-			greenPL.shader = emitter;
-		}
+            yellowTL.shader = emitter;
+        }
+        else
+        {
+            redTL.shader = emitter;
+            greenTL.shader = diffuse;
+            yellowTL.shader = diffuse;
+
+            redPL.shader = diffuse;
+            greenPL.shader = emitter;
+        }
 	}
 }
