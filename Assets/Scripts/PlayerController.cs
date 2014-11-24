@@ -5,13 +5,22 @@ public class PlayerController : MonoBehaviour
 {
     public Transform rightCamera;
 
+    //socket variables
+    public string ip;
+    public int port;
+    
+    public float x_z_factor = 1;
+   // public float y_factor;
+
+
     public float speed = 1;
 
     //SocketMove
     public bool useSocketReader;
-    SocketReader socketReader;
+    public SocketReader socketReader;
     int currPointNr;
-    Vector3 moveTowards;
+    Vector3 deltaPosition;
+    Vector3 preMovePos;
 
 
     //KeyboardMove
@@ -28,10 +37,14 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        moveTowards = transform.position;
+        deltaPosition = Vector3.zero;
+        preMovePos = transform.position;
         if (useSocketReader)
         {
-            socketReader = gameObject.AddComponent<SocketReader>();
+            socketReader.useSocketReader = true;
+            //socketReader = gameObject.AddComponent<SocketReader>();
+            //socketReader.host = ip;
+            //socketReader.port = port;
         }
     }
 
@@ -49,15 +62,19 @@ public class PlayerController : MonoBehaviour
     {
         if (socketReader.pointNr > currPointNr)
         {
-            moveTowards = socketReader.points[0/*TODO: if more body parts*/];
+            preMovePos = rigidbody.position;
+            deltaPosition = socketReader.points[0/*TODO: if more body parts*/] - socketReader.prePoints[0];
+            deltaPosition.y = 0;
+            Debug.Log(deltaPosition);
             currPointNr = socketReader.pointNr;
         }
-        if (rigidbody.position != moveTowards)
+        Debug.Log(deltaPosition);
+        if (rigidbody.position.magnitude < preMovePos.magnitude + deltaPosition.magnitude)
         {
-            rigidbody.MovePosition((moveTowards - transform.position).normalized * speed * Time.deltaTime);
-            if ((moveTowards - transform.position).magnitude < 1)
+            rigidbody.MovePosition(transform.position + deltaPosition.normalized * speed * Time.deltaTime);
+            if (rigidbody.position.magnitude > preMovePos.magnitude + deltaPosition.magnitude)
             {
-                rigidbody.MovePosition(moveTowards);
+                rigidbody.MovePosition(preMovePos + deltaPosition);
             }
         }
     }
@@ -78,11 +95,7 @@ public class PlayerController : MonoBehaviour
             Vector3 fwd = new Vector3(rightCamera.forward.x, 0, rightCamera.forward.z);
             Vector3 right = new Vector3(rightCamera.right.x, 0, rightCamera.right.z);
             rigidbody.MovePosition(rigidbody.position + (fwd * upDown + leftRight * right).normalized * speed * Time.deltaTime);
-            
 
         }
-
-        
-
     }
 }
