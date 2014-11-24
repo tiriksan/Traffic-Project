@@ -30,7 +30,8 @@ public class TrafficLights : MonoBehaviour
     Material redPL;
     Material greenPL;
 
-    AudioSource[] pedestrianSound;
+	public bool playSound;
+    public AudioSource[] pedestrianSound;
 
 
     // Use this for initialization
@@ -121,12 +122,8 @@ public class TrafficLights : MonoBehaviour
 
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
-                //TODO:
-                /*
-                foreach (AudioSource audio in pedestrianSound)
-                {
-                    audio.Play(0);
-                }*/
+                
+				StartCoroutine(pedestrianBeep());
 
                 offsetDone = true;
             }
@@ -137,6 +134,14 @@ public class TrafficLights : MonoBehaviour
         }
 
     }
+
+	IEnumerator pedestrianBeep(){
+		if(!playSound){
+			pedestrianSound[0].PlayDelayed(2.0f);
+			playSound = true;
+		}
+		yield return null;
+	}
 
     public void checkLight()
     {

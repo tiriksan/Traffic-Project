@@ -19,7 +19,7 @@ public class splashScreen : MonoBehaviour {
 	private string sc_2 = "Scenario 2\nStay in the zone\nwait for green man..";
 	private string sc_3 = "Scenario 3\nWait for green man .." + "\n1: sc_1\n2 : sc_2\n3: sc_3\n esc: quit";
 
-	public AudioSource[] audio;
+	public AudioSource[] audio; //
 	private bool playSound;
 	AudioClip crashSound;
 
@@ -64,8 +64,14 @@ public class splashScreen : MonoBehaviour {
 				audio[0].Play();
 				playSound = true;
 				deaths++;
-				death_msg = "You're injured!\n injuries : " + deaths
-					+ "\n wait to respawn..";
+				if(deaths < 3){
+					death_msg = "You're injured!\n injuries : " + deaths
+						+ "\n wait to respawn..";
+				}else{
+					death_msg = "GAME OVER\nInjuries : " + deaths + "\nScore : " + score;
+					deaths = 0;
+					score = 0;
+				}
 			}
 
 			screen.gameObject.renderer.material.color = colorBack;
