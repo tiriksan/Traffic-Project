@@ -123,7 +123,7 @@ public class TrafficLights : MonoBehaviour
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
                 
-				StartCoroutine(pedestrianBeep());
+				//StartCoroutine(pedestrianBeep()); 
 
                 offsetDone = true;
             }
@@ -135,13 +135,13 @@ public class TrafficLights : MonoBehaviour
 
     }
 
-	IEnumerator pedestrianBeep(){
+	/*IEnumerator pedestrianBeep(){
 		if(!playSound){
 			pedestrianSound[0].PlayDelayed(2.0f);
 			playSound = true;
 		}
 		yield return null;
-	}
+	}*/
 
     public void checkLight()
     {
