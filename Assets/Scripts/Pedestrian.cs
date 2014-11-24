@@ -9,7 +9,7 @@ public class Pedestrian : MonoBehaviour {
     public TrafficLights_SC2 TL;
 	// Use this for initialization
 	void Start () {
-        TL = GetComponent<TrafficLights_SC2>();
+       //TL = GetComponent<TrafficLights_SC2>();
 	}
 	
 	// Update is called once per frame
@@ -44,19 +44,23 @@ public class Pedestrian : MonoBehaviour {
 	}
 
 	IEnumerator PushAndWait(){
-		int waitTime = Random.Range(3,10);
-		isPushed = true;
-		yield return new WaitForSeconds(waitTime-1);
-        TL.currState = TrafficLights_SC2.state.yellow;
-        yield return new WaitForSeconds(1);
-        TL.currState = TrafficLights_SC2.state.green;
-		Debug.Log("waitTime :" + waitTime + " " + isPushed);
-		triggerField.isActive = true;
-		yield return new WaitForSeconds(14);
-        TL.currState = TrafficLights_SC2.state.yellow;
-        yield return new WaitForSeconds(1);
-        TL.currState = TrafficLights_SC2.state.red;
-        triggerField.isActive = false;
+		if(!isPushed){
+			int waitTime = Random.Range(3,10);
+			isPushed = true;
+				yield return new WaitForSeconds(waitTime-1);
+			Debug.Log(TL.currState);
+        	TL.currState = TrafficLights_SC2.state.yellow;
+        		yield return new WaitForSeconds(1);
+        	TL.currState = TrafficLights_SC2.state.red;
+			Debug.Log("waitTime :" + waitTime + " " + isPushed);
+			triggerField.isActive = true;
+				yield return new WaitForSeconds(14);
+        	TL.currState = TrafficLights_SC2.state.yellow;
+        		yield return new WaitForSeconds(1);
+        	TL.currState = TrafficLights_SC2.state.green;
+        	triggerField.isActive = false;
 			isPushed = false;
+		}
+		yield return null;
 	}
 }

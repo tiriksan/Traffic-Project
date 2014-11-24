@@ -8,7 +8,7 @@ public class TrafficLights_SC2 : MonoBehaviour {
 
 
     public enum state{green, yellow, red};
-    public state currState = state.red;
+    public state currState = state.green;
 
 
 	public GameObject[] trafficLObjects;
