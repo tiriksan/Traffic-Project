@@ -25,8 +25,9 @@ public class TrafficLights_SC2 : MonoBehaviour {
 	
 	Material redPL;
 	Material greenPL;
-	
-	AudioSource[] pedestrianSound;
+
+	public bool playSound;
+	public AudioSource[] pedestrianSound;
 
 	// Use this for initialization
 	void Start () {
@@ -100,6 +101,20 @@ public class TrafficLights_SC2 : MonoBehaviour {
 
             redPL.shader = diffuse;
             greenPL.shader = emitter;
+
+			StartCoroutine(pedestrianBeep());
+
         }
+	}
+
+	IEnumerator pedestrianBeep(){
+		if(!playSound){
+			pedestrianSound[0].Play();
+			Debug.Log ("delayed!");
+			pedestrianSound[0].PlayDelayed(5.0f);
+			playSound = true;
+
+		}
+		yield return null;
 	}
 }
