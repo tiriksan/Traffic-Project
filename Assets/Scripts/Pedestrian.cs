@@ -54,7 +54,7 @@ public class Pedestrian : MonoBehaviour {
         	TL.currState = TrafficLights_SC2.state.red;
 			Debug.Log("waitTime :" + waitTime + " " + isPushed);
 			triggerField.isActive = true;
-				yield return new WaitForSeconds(14);
+				yield return new WaitForSeconds(9);
         	TL.currState = TrafficLights_SC2.state.yellow;
         		yield return new WaitForSeconds(1);
         	TL.currState = TrafficLights_SC2.state.green;

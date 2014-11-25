@@ -110,8 +110,10 @@ public class TrafficLights_SC2 : MonoBehaviour {
 	IEnumerator pedestrianBeep(){
 		if(!playSound){
 			//pedestrianSound[0].Play();
-			Debug.Log ("delayed!");
-			pedestrianSound[0].PlayDelayed(2.0f);
+			foreach(AudioSource audio in pedestrianSound){
+				Debug.Log("heya " + audio);
+				audio.Play();
+			}
 			playSound = true;
 
 		}

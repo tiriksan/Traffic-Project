@@ -88,13 +88,13 @@ public class TrafficLights : MonoBehaviour
         }
 
         //get the audiosources
-        pedestrianSound = new AudioSource[pedestrianLObjects.Length];
+        /*pedestrianSound = new AudioSource[pedestrianLObjects.Length];
         int index = 0;
         foreach (GameObject go in pedestrianLObjects)
         {
             pedestrianSound[index] = go.GetComponent<AudioSource>();
             index++;
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -123,7 +123,8 @@ public class TrafficLights : MonoBehaviour
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
                 
-				//StartCoroutine(pedestrianBeep()); 
+				StartCoroutine(pedestrianBeep()); 
+
 
                 offsetDone = true;
             }
@@ -135,13 +136,17 @@ public class TrafficLights : MonoBehaviour
 
     }
 
-	/*IEnumerator pedestrianBeep(){
+	IEnumerator pedestrianBeep(){
 		if(!playSound){
-			pedestrianSound[0].PlayDelayed(2.0f);
+			foreach(AudioSource audio in pedestrianSound){
+				Debug.Log("heya " + audio);
+				audio.Play();
+			}
+			//pedestrianSound[0].PlayDelayed(2.0f);
 			playSound = true;
 		}
 		yield return null;
-	}*/
+	}
 
     public void checkLight()
     {
@@ -169,11 +174,9 @@ public class TrafficLights : MonoBehaviour
                 greenPL.shader = emitter;
             }
             //TODO:
-            /*
-            foreach(AudioSource audio in pedestrianSound){
-                audio.Play(0);
-            }
-             * */
+            
+            
+             
         }
         else
         {
