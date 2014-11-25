@@ -69,8 +69,7 @@ public class splashScreen : MonoBehaviour {
 						+ "\n wait to respawn..";
 				}else{
 					death_msg = "GAME OVER\nInjuries : " + deaths + "\nScore : " + score;
-					deaths = 0;
-					score = 0;
+					// reset / play again ?
 				}
 			}
 
@@ -90,9 +89,12 @@ public class splashScreen : MonoBehaviour {
 				audio[1].Play();
 				playSound = true;
 				score++;
-				victory_msg = "Congratulations!\ndeaths : " + deaths + "\nscore :" 
+				victory_msg = "Level complete!\ndeaths : " + deaths + "\nscore :" 
 					+ score;
-				//scenario1 = true;
+				if(score >= 3){
+					victory_msg = "You Win!\nScore : " + score + "\nDeaths : " + deaths;
+					//reset / play again ?
+				}
 			}
 
 			screen.gameObject.renderer.material.color = colorBack;
