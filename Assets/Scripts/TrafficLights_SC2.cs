@@ -88,6 +88,15 @@ public class TrafficLights_SC2 : MonoBehaviour {
 
 			redPL.shader = emitter;
 			greenPL.shader = diffuse;
+
+			if(playSound){
+				foreach(AudioSource audio in pedestrianSound){
+
+					audio.Stop();
+				}
+			}
+			playSound = false;
+
 		}else if(currState == state.yellow){
 			redTL.shader = diffuse;
 			greenTL.shader = diffuse;
@@ -109,9 +118,7 @@ public class TrafficLights_SC2 : MonoBehaviour {
 
 	IEnumerator pedestrianBeep(){
 		if(!playSound){
-			//pedestrianSound[0].Play();
 			foreach(AudioSource audio in pedestrianSound){
-				Debug.Log("heya " + audio);
 				audio.Play();
 			}
 			playSound = true;

@@ -122,9 +122,8 @@ public class TrafficLights : MonoBehaviour
 
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
-                
-				StartCoroutine(pedestrianBeep()); 
 
+				StartCoroutine(pedestrianBeep());
 
                 offsetDone = true;
             }
@@ -139,11 +138,11 @@ public class TrafficLights : MonoBehaviour
 	IEnumerator pedestrianBeep(){
 		if(!playSound){
 			foreach(AudioSource audio in pedestrianSound){
-				Debug.Log("heya " + audio);
+				//Debug.Log("switched on: " + audio);
 				audio.Play();
 			}
-			//pedestrianSound[0].PlayDelayed(2.0f);
 			playSound = true;
+			
 		}
 		yield return null;
 	}
@@ -161,17 +160,20 @@ public class TrafficLights : MonoBehaviour
             triggerField.GetComponent<TriggerField>().isActive = false;
             yellowTL.shader = diffuse;
             greenTL.shader = emitter;
+
             if ((timer - offsetTime) % (interval + durationTime) > durationTime * 2 / 3) //flashing green man
             {
                 if ((timer - offsetTime)*50 % 40 >= 30)
                     greenPL.shader = diffuse;
                 else
-                    greenPL.shader = emitter;
+                    greenPL.shader = emitter; 
+					
             }
             else
             {
                 redPL.shader = diffuse;
                 greenPL.shader = emitter;
+				StartCoroutine(pedestrianBeep());
             }
             //TODO:
             
@@ -201,6 +203,16 @@ public class TrafficLights : MonoBehaviour
 
                 redPL.shader = emitter;
                 greenPL.shader = diffuse;
+
+				if(playSound){
+					foreach(AudioSource audio in pedestrianSound){
+						//Debug.Log("switched off: " + audio);
+						audio.Stop();
+					}
+				}
+				playSound = false;
+				
+
             }
             triggerField.GetComponent<TriggerField>().isActive = true;
         }
