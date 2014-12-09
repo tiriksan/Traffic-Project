@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
     public Transform rightCamera;
 
     //socket variables
-    public string ip;
-    public int port;
+//    public string ip;
+//    public int port;
     
     public float x_z_factor = 1;
    // public float y_factor;
@@ -39,13 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         deltaPosition = Vector3.zero;
         preMovePos = transform.position;
-        if (useSocketReader)
-        {
-            socketReader.useSocketReader = true;
-            //socketReader = gameObject.AddComponent<SocketReader>();
-            //socketReader.host = ip;
-            //socketReader.port = port;
-        }
+       
     }
 
     // Update is called once per frame

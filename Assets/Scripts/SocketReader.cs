@@ -28,49 +28,54 @@ public class SocketReader : MonoBehaviour
         if (useSocketReader)
         {
             socketReady = setupSocket();
+            if (socketReady)
+                StartCoroutine(readFromSocket());
         }
         //Debug.Log(host + ", " + port);
 
     }
 
-    // Update is called once per frame
-    void Update()
+
+    IEnumerator readFromSocket()
     {
-        if (useSocketReader)
+        while (true)
         {
-            if (socketReady)
+            Debug.Log("Pre stream.DataAvaliable");
+            Debug.Log("Data availiable: " + stream.DataAvailable + "");
+            // Debug.Log(reader.ReadLine());
+            try
             {
-                Debug.Log(stream.DataAvailable + "");
-                // Debug.Log(reader.ReadLine());
-                try
+                Debug.Log("here???");
+                //read a line that contains the new vertex
+                string read = reader.ReadLine();
+                Debug.Log(read);
+                //each vertex is split with a space
+                string[] split = read.Split(' ');
+
+                //If the points array is not instantiated yet
+                if (points == null)
+                    points = new Vector3[split.Length];
+                if (prePoints == null) prePoints = new Vector3[split.Length];
+                //create a vertex object from the string array
+                for (int i = 0; i < 2; i++)
                 {
-                    Debug.Log("here???");
-                    //read a line that contains the new vertex
-                    string read = reader.ReadLine();
-                    Debug.Log(read);
-                    //each vertex is split with a space
-                    string[] split = read.Split(' ');
-
-                    //If the points array is not instantiated yet
-                    if (points == null)
-                        points = new Vector3[split.Length];
-                    if (prePoints == null) prePoints = new Vector3[split.Length];
-                    //create a vertex object from the string array
-                    for (int i = 0; i < 1; i++)
-                    {
-                        if (pointNr > 1) prePoints[i] = new Vector3(points[0].x, 0, points[0].z);
-                        points[0 /*TODO: if more than one marker */] = new Vector3(float.Parse(split[0]), 0, float.Parse(split[2]));
-                    }
-                    //Notifies the playerController that a new vertex has arrived
-                    pointNr++;
-
+                    if (pointNr > 1) 
+                        prePoints[i] = new Vector3(points[0].x, 0, points[0].z);
+                    points[i] = new Vector3(float.Parse(split[0]), 0, float.Parse(split[2]));
                 }
-                catch (Exception e)
-                {
+                //Notifies the playerController that a new vertex has arrived
+                pointNr++;
 
-                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
             }
         }
+
+
+
+        yield return null;
     }
 
     bool setupSocket()
@@ -93,6 +98,7 @@ public class SocketReader : MonoBehaviour
 
     void OnApplicationExit()
     {
+        StopCoroutine(readFromSocket());
         closeSocket();
     }
 
