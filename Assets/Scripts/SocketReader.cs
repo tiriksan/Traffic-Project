@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Net.Sockets;
+using System.Net;
+using System.Text;
 using System;
 using System.IO;
 
@@ -8,11 +10,17 @@ public class SocketReader : MonoBehaviour
 {
 
     public string host;
+    
+  //  public Byte[] ip;
     public int port;
+
+
 
     TcpClient socket;
     NetworkStream stream;
     StreamReader reader;
+
+    Socket socket2;
 
     public bool useSocketReader = false;
     public bool socketReady { get; private set; }
@@ -38,27 +46,40 @@ public class SocketReader : MonoBehaviour
 
     IEnumerator readFromSocket()
     {
+        byte[] bytes = new Byte[1024];
         while (true)
         {
             Debug.Log("Pre stream.DataAvaliable");
-            Debug.Log("Data availiable: " + stream.DataAvailable + "");
-            // Debug.Log(reader.ReadLine());
+            //Debug.Log("Data availiable: " + stream.DataAvailable + "");
+            
             try
             {
                 Debug.Log("here???");
                 //read a line that contains the new vertex
                 string read = reader.ReadLine();
-                Debug.Log(read);
-                //each vertex is split with a space
-                string[] split = read.Split(' ');
+               /* Debug.Log(read);
+                 
+                bytes = new byte[1024];
+                int recieve = socket2.Receive(bytes);
+                */
 
-                //If the points array is not instantiated yet
-                if (points == null)
-                    points = new Vector3[split.Length];
-                if (prePoints == null) prePoints = new Vector3[split.Length];
+//                string read = Encoding.ASCII.GetString(bytes, 0 ,recieve);
+                //each vertex is split with a space
+                string[] allPoints = read.Split('\t');
+
+                
                 //create a vertex object from the string array
                 for (int i = 0; i < 2; i++)
                 {
+                    string[] split = allPoints[i].Split(' ');
+
+                    //If the points array is not instantiated yet
+                    if (points == null)
+                        points = new Vector3[split.Length];
+                    if (prePoints == null) 
+                        prePoints = new Vector3[split.Length];
+
+
                     if (pointNr > 1) 
                         prePoints[i] = new Vector3(points[0].x, 0, points[0].z);
                     points[i] = new Vector3(float.Parse(split[0]), 0, float.Parse(split[2]));
@@ -71,6 +92,7 @@ public class SocketReader : MonoBehaviour
             {
                 Debug.Log(e);
             }
+            yield return new WaitForEndOfFrame();
         }
 
 
@@ -82,11 +104,20 @@ public class SocketReader : MonoBehaviour
     {
         try
         {
+     /*       IPHostEntry ipHostInfo = Dns.Resolve(host);
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+            socket2 = new Socket(AddressFamily.InterNetwork,
+                SocketType.Stream, ProtocolType.Tcp);
+
+            socket2.Connect(remoteEP);*/
+
+
             socket = new TcpClient(host, port);
             socket.Connect(host, port);
             stream = socket.GetStream();
             reader = new StreamReader(stream);
-            stream.ReadTimeout = 1;
+            stream.ReadTimeout = 2000000;
             return true;
         }
         catch (Exception e)
@@ -104,10 +135,13 @@ public class SocketReader : MonoBehaviour
 
     void closeSocket()
     {
+        socket2.Close();
         if ((socketReady) && (socket.Connected))
         {
+           
             reader.Close();
             socket.Close();
+                          
             socketReady = false;
         }
     }

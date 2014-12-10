@@ -6,11 +6,11 @@ public class PlayerController : MonoBehaviour
     public Transform rightCamera;
 
     //socket variables
-//    public string ip;
-//    public int port;
-    
+    //    public string ip;
+    //    public int port;
+
     public float x_z_factor = 1;
-   // public float y_factor;
+    // public float y_factor;
 
 
     public float speed = 1;
@@ -21,7 +21,9 @@ public class PlayerController : MonoBehaviour
     int currPointNr;
     Vector3 deltaPosition;
     Vector3 preMovePos;
-
+    public int numPoints = 2;
+    //motionPointsOffset:
+    public float movePointZOffset = 0;
 
     //KeyboardMove
     public float mouseSense = 1;
@@ -30,7 +32,7 @@ public class PlayerController : MonoBehaviour
     float upDown;
 
     float mLeftRight;
-  
+
     public bool canMove = true;
 
 
@@ -39,7 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         deltaPosition = Vector3.zero;
         preMovePos = transform.position;
-       
+
     }
 
     // Update is called once per frame
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         if (useSocketReader && socketReader.socketReady)
             SocketMove();
-        
+
         else
             KeyboardMove();
     }
@@ -57,8 +59,29 @@ public class PlayerController : MonoBehaviour
         if (socketReader.pointNr > currPointNr)
         {
             preMovePos = rigidbody.position;
-            deltaPosition = socketReader.points[0/*TODO: if more body parts*/] - socketReader.prePoints[0];
-            deltaPosition.y = 0;
+
+            Vector3 prePoint1 = socketReader.prePoints[0];
+            Vector3 prePoint2 = socketReader.prePoints[1];
+
+            Vector3 point1 = socketReader.points[0];
+            Vector3 point2 = socketReader.points[1];
+
+            Vector3 deltaPoints = point1 - point2;
+
+            //Is this really necessary? idk
+            transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+
+            Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
+            Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
+
+            avgPrePoint.y = 0;
+            avgPoint.y = 0;
+
+            Vector3 deltaAvgPos = avgPoint - avgPrePoint;
+
+            //deltaPosition = new Vector3(deltaAvgPos.x * transform.forward.x, 0, deltaAvgPos.z * transform.forward.z);
+            deltaPosition = deltaAvgPos.normalized;
+           
             Debug.Log(deltaPosition);
             currPointNr = socketReader.pointNr;
         }
@@ -81,7 +104,7 @@ public class PlayerController : MonoBehaviour
             upDown = Input.GetAxis("Vertical");
 
             mLeftRight = Input.GetAxis("Mouse X");
-      
+
             //rotate left/right           
             rigidbody.MoveRotation(Quaternion.Euler((rigidbody.rotation.eulerAngles + mouseSense * mLeftRight * Vector3.up)));
 
