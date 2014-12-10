@@ -20,7 +20,7 @@ public class turnScript : MonoBehaviour
     }
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("ENTER");
+        //Debug.Log("ENTER");
         if (col.tag.Contains("Car") && !col.isTrigger)
         {
             if (col.tag.Contains("L"))

@@ -56,33 +56,38 @@ public class PlayerController : MonoBehaviour
 
     void SocketMove()
     {
+        Debug.Log("Pointnrs: " + socketReader.pointNr + ", " + currPointNr);
         if (socketReader.pointNr > currPointNr)
         {
             preMovePos = rigidbody.position;
+            if (currPointNr > 1)
+            {
+                Vector3 prePoint1 = socketReader.prePoints[0];
+                Vector3 prePoint2 = socketReader.prePoints[1];
 
-            Vector3 prePoint1 = socketReader.prePoints[0];
-            Vector3 prePoint2 = socketReader.prePoints[1];
+                Vector3 point1 = socketReader.points[0];
+                Vector3 point2 = socketReader.points[1];
 
-            Vector3 point1 = socketReader.points[0];
-            Vector3 point2 = socketReader.points[1];
+                Vector3 deltaPoints = point1 - point2;
 
-            Vector3 deltaPoints = point1 - point2;
+                //Is this really necessary? idk
+                transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
 
-            //Is this really necessary? idk
-            transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+                Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
+                Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
 
-            Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
-            Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
+                avgPrePoint.y = 0;
+                avgPoint.y = 0;
 
-            avgPrePoint.y = 0;
-            avgPoint.y = 0;
+                Vector3 deltaAvgPos = avgPoint - avgPrePoint;
 
-            Vector3 deltaAvgPos = avgPoint - avgPrePoint;
+                //deltaPosition = new Vector3(deltaAvgPos.x * transform.forward.x, 0, deltaAvgPos.z * transform.forward.z);
+                deltaPosition = deltaAvgPos.normalized;
 
-            //deltaPosition = new Vector3(deltaAvgPos.x * transform.forward.x, 0, deltaAvgPos.z * transform.forward.z);
-            deltaPosition = deltaAvgPos.normalized;
-           
-            Debug.Log(deltaPosition);
+
+                Debug.Log("Delta pos: " + deltaPosition);
+                
+            }
             currPointNr = socketReader.pointNr;
         }
         Debug.Log(deltaPosition);

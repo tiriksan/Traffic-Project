@@ -103,13 +103,13 @@ public class CarAI : MonoBehaviour
             Debug.Log("This is not supposed to happen...");
         */
         float radius = Mathf.Abs(radVect.x);
-        Debug.Log(radius);
+        //Debug.Log(radius);
 
         float startRot = transform.rotation.eulerAngles.y;
 
         //current rotation
         float r = Mathf.Round(startRot);
-        Debug.Log("r: " + r);
+        //Debug.Log("r: " + r);
         while (r > (-90 + startRot))
         {
             //rotation = 90 degrees * velocity * 4(quarter circle) * deltaTime / (2*PI*radius)
