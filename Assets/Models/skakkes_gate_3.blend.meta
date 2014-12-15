@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c37daf40b6636421b80490576f23ce25
+guid: 0025ffe77a6804195a4d14c388fbd953
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -8,23 +8,23 @@ ModelImporter:
     100004: Cube_002
     100006: Cube_003
     100008: Cube_004
-    100010: //RootNode
-    100012: Cube_005
-    100014: Cube_006
-    100016: Cube_007
-    100018: Cube_008
-    100020: Cube_009
+    100010: Cube_005
+    100012: Cube_006
+    100014: Cube_007
+    100016: Cube_008
+    100018: Cube_009
+    100020: //RootNode
     400000: Cube
     400002: Cube_001
     400004: Cube_002
     400006: Cube_003
     400008: Cube_004
-    400010: //RootNode
-    400012: Cube_005
-    400014: Cube_006
-    400016: Cube_007
-    400018: Cube_008
-    400020: Cube_009
+    400010: Cube_005
+    400012: Cube_006
+    400014: Cube_007
+    400016: Cube_008
+    400018: Cube_009
+    400020: //RootNode
     2300000: Cube
     2300002: Cube_001
     2300004: Cube_002
@@ -45,16 +45,16 @@ ModelImporter:
     3300014: Cube_007
     3300016: Cube_008
     3300018: Cube_009
-    4300000: Cube_004
-    4300002: Cube_003
-    4300004: Cube_002
-    4300006: Cube_001
-    4300008: Cube
-    4300010: Cube_009
-    4300012: Cube_008
-    4300014: Cube_007
-    4300016: Cube_006
-    4300018: Cube_005
+    4300000: Cube_009
+    4300002: Cube_008
+    4300004: Cube_007
+    4300006: Cube_006
+    4300008: Cube_005
+    4300010: Cube_004
+    4300012: Cube_003
+    4300014: Cube_002
+    4300016: Cube_001
+    4300018: Cube
     6400000: Cube
     6400002: Cube_001
     6400004: Cube_002
@@ -90,8 +90,8 @@ ModelImporter:
     meshCompression: 0
     addColliders: 1
     importBlendShapes: 1
-    swapUVChannels: 0
-    generateSecondaryUV: 0
+    swapUVChannels: 1
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     weldVertices: 1
