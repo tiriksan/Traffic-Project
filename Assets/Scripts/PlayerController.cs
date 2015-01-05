@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour
     //SocketMove
     public bool useSocketReader;
     public SocketReader socketReader;
+
+    public bool useMotionFileReader;
+    public MotionFileReader motionFileReader;
+
     int currPointNr;
     Vector3 deltaPosition;
     Vector3 preMovePos;
@@ -50,6 +54,8 @@ public class PlayerController : MonoBehaviour
         if (useSocketReader && socketReader.socketReady)
             SocketMove();
 
+        else if (useMotionFileReader)
+            FileMove();
         else
             KeyboardMove();
     }
@@ -89,6 +95,52 @@ public class PlayerController : MonoBehaviour
                 
             }
             currPointNr = socketReader.pointNr;
+        }
+        Debug.Log(deltaPosition);
+        if (rigidbody.position.magnitude < preMovePos.magnitude + deltaPosition.magnitude)
+        {
+            rigidbody.MovePosition(transform.position + deltaPosition.normalized * speed * Time.deltaTime);
+            if (rigidbody.position.magnitude > preMovePos.magnitude + deltaPosition.magnitude)
+            {
+                rigidbody.MovePosition(preMovePos + deltaPosition);
+            }
+        }
+    }
+
+    void FileMove()
+    {
+        if (motionFileReader.pointNr > currPointNr)
+        {
+            preMovePos = rigidbody.position;
+            if (currPointNr > 1)
+            {
+                Vector3 prePoint1 = motionFileReader.prePoints[0];
+                Vector3 prePoint2 = motionFileReader.prePoints[1];
+
+                Vector3 point1 = motionFileReader.points[0];
+                Vector3 point2 = motionFileReader.points[1];
+
+                Vector3 deltaPoints = point1 - point2;
+
+                //Is this really necessary? idk
+                transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+
+                Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
+                Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
+
+                avgPrePoint.y = 0;
+                avgPoint.y = 0;
+
+                Vector3 deltaAvgPos = avgPoint - avgPrePoint;
+
+                //deltaPosition = new Vector3(deltaAvgPos.x * transform.forward.x, 0, deltaAvgPos.z * transform.forward.z);
+                deltaPosition = deltaAvgPos.normalized;
+
+
+                Debug.Log("Delta pos: " + deltaPosition);
+
+            }
+            currPointNr = motionFileReader.pointNr;
         }
         Debug.Log(deltaPosition);
         if (rigidbody.position.magnitude < preMovePos.magnitude + deltaPosition.magnitude)
