@@ -52,8 +52,9 @@ public class MotionFileReader : MonoBehaviour {
                 prePoints[0] = new Vector3(points[0].x, 0, points[0].z);
                 prePoints[1] = new Vector3(points[1].x, 0, points[1].z);
             }
-            points[0] = new Vector3(float.Parse(allPoints[0]), 0, float.Parse(allPoints[2]));
-            points[1] = new Vector3(float.Parse(allPoints[3]), 0, float.Parse(allPoints[5]));
+            points[0] = new Vector3(float.Parse(allPoints[2]), 0, float.Parse(allPoints[0]));
+            points[1] = new Vector3(float.Parse(allPoints[5]), 0, float.Parse(allPoints[3]));
+            Debug.Log(points[0] + ", " + points[1]);
             pointNr++;
             Debug.Log(pointNr);
             yield return new WaitForSeconds(interval);
