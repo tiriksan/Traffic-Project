@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
 
                 Debug.Log("Delta pos: " + deltaPosition);
-                
+
             }
             currPointNr = socketReader.pointNr;
         }
@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour
 
                 //Is this really necessary? idk
                 transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+                transform.forward = new Vector3(transform.forward.z, 0, -transform.forward.x);
 
                 Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
                 Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
@@ -142,13 +143,17 @@ public class PlayerController : MonoBehaviour
             }
             currPointNr = motionFileReader.pointNr;
         }
-        Debug.Log(deltaPosition);
+        //Debug.Log(deltaPosition);
+        //Debug.Log(rigidbody.position.magnitude + ", " + (preMovePos.magnitude + deltaPosition.magnitude));
         if (rigidbody.position.magnitude < preMovePos.magnitude + deltaPosition.magnitude)
         {
+
             rigidbody.MovePosition(transform.position + deltaPosition.normalized * speed * Time.deltaTime);
             if (rigidbody.position.magnitude > preMovePos.magnitude + deltaPosition.magnitude)
             {
-                rigidbody.MovePosition(preMovePos + deltaPosition);
+                Debug.Log((preMovePos + deltaPosition) + "; " + rigidbody.position.magnitude + "; " + (preMovePos.magnitude + deltaPosition.magnitude));
+                rigidbody.position = (preMovePos + deltaPosition);
+                Debug.Log(rigidbody.position + "; " + rigidbody.position.magnitude + "; " + (preMovePos.magnitude + deltaPosition.magnitude));
             }
         }
     }
