@@ -18,6 +18,8 @@ public class splashScreen : MonoBehaviour {
 	private string sc_1 = "Scenario 1\nWait for cars to stop\n before you can \n cross the road..";
 	private string sc_2 = "Scenario 2\nStay in the zone\nwait for green man..";
 	private string sc_3 = "Scenario 3\nWait for green man .." + "\n1: sc_1\n2 : sc_2\n3: sc_3\n esc: quit";
+    public string additionalText1;
+    public string additionalText2;
 
 	public AudioSource[] audio; //
 	private bool playSound;
@@ -155,11 +157,11 @@ public class splashScreen : MonoBehaviour {
 		this.GetComponent<TextMesh>().color = Color.white;
 
 		if(scenario1){
-			this.GetComponent<TextMesh>().text = sc_1;
+            this.GetComponent<TextMesh>().text = sc_1 + "\n" + "\n" + additionalText1 + "\n" + additionalText2;
 		}else if(scenario2){
-			this.GetComponent<TextMesh>().text = sc_2;
+            this.GetComponent<TextMesh>().text = sc_2 + "\n" + "\n" + additionalText1 + "\n" + additionalText2;
 		}else{
-			this.GetComponent<TextMesh>().text = sc_3;
+            this.GetComponent<TextMesh>().text = sc_3 + "\n" + "\n" + additionalText1 + "\n" + additionalText2;
 		}
 
 		this.renderer.enabled = true;
