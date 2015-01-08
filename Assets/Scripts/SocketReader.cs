@@ -58,52 +58,46 @@ public class SocketReader : MonoBehaviour
                 {
                     Debug.Log("here???");
                     //read a line that contains the new vertex
-                    /*if (stream.DataAvailable)
-                    {*/
+                    
                     Debug.Log("Reader: " + reader + ", Stream: " + stream + ", Socket: " + socket);
                     string read = reader.ReadLine();
 
                     Debug.Log("Read: " + read);
 
-                    /* Debug.Log(read);
-                 
-                     bytes = new byte[1024];
-                     int recieve = socket2.Receive(bytes);
-                     */
-
-                    //                string read = Encoding.ASCII.GetString(bytes, 0 ,recieve);
-                    //each vertex is split with a space
+                    
 
                     string[] allPoints = read.Split('\t');
-                    
-                   
 
-                    if (pointNr > 1) { 
+
+
+                    if (pointNr > 1)
+                    {
                         prePoints[0] = new Vector3(points[0].x, 0, points[0].z);
                         prePoints[1] = new Vector3(points[1].x, 0, points[1].z);
                     }
-                    points[0] = new Vector3(float.Parse(allPoints[0]), 0, float.Parse(allPoints[2]));
-                    points[1] = new Vector3(float.Parse(allPoints[3]), 0, float.Parse(allPoints[5]));
-                    pointNr++;
+                    points[0] = new Vector3(float.Parse(allPoints[2]), 0, float.Parse(allPoints[0]));
+                    points[1] = new Vector3(float.Parse(allPoints[5]), 0, float.Parse(allPoints[3]));
+                    if (points[0].x != 0 && points[0].z != 0 && points[1].x != 0 && points[1].z != 0)
+                        pointNr++;
                     Debug.Log(pointNr);
                     //create a vertex object from the string array
-                   /* for (int i = 0; i < 2; i++)
-                    {
-                        string[] split = allPoints[i].Split(' ');
+                    /* for (int i = 0; i < 2; i++)
+                     {
+                         string[] split = allPoints[i].Split(' ');
 
-                        //If the points array is not instantiated yet
-                        if (points == null)
-                            points = new Vector3[split.Length];
-                        if (prePoints == null)
-                            prePoints = new Vector3[split.Length];
+                         //If the points array is not instantiated yet
+                         if (points == null)
+                             points = new Vector3[split.Length];
+                         if (prePoints == null)
+                             prePoints = new Vector3[split.Length];
 
 
-                        if (pointNr > 1)
-                            prePoints[i] = new Vector3(points[0].x, 0, points[0].z);
-                        points[i] = new Vector3(float.Parse(split[0]), 0, float.Parse(split[2]));
-                    }*/
+                         if (pointNr > 1)
+                             prePoints[i] = new Vector3(points[0].x, 0, points[0].z);
+                         points[i] = new Vector3(float.Parse(split[0]), 0, float.Parse(split[2]));
+                     }*/
                     //Notifies the playerController that a new vertex has arrived
-                   
+
                 }
 
                   //  }

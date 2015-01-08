@@ -77,7 +77,8 @@ public class PlayerController : MonoBehaviour
                 Vector3 deltaPoints = point1 - point2;
 
                 //Is this really necessary? idk
-                transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+                //transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+                transform.forward = new Vector3(transform.forward.z, 0, -transform.forward.x);
 
                 Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
                 Vector3 avgPoint = ((point1 + point2) / 2) - transform.forward * movePointZOffset;
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 deltaPoints = point1 - point2;
 
                 //Is this really necessary? idk
-                transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
+                //transform.forward = (new Vector3(deltaPoints.z, 0, deltaPoints.x)).normalized;
                 transform.forward = new Vector3(transform.forward.z, 0, -transform.forward.x);
 
                 Vector3 avgPrePoint = ((prePoint1 + prePoint2) / 2) - transform.forward * movePointZOffset;
@@ -151,9 +152,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.MovePosition(transform.position + deltaPosition.normalized * speed * Time.deltaTime);
             if (rigidbody.position.magnitude > preMovePos.magnitude + deltaPosition.magnitude)
             {
-                Debug.Log((preMovePos + deltaPosition) + "; " + rigidbody.position.magnitude + "; " + (preMovePos.magnitude + deltaPosition.magnitude));
-                rigidbody.position = (preMovePos + deltaPosition);
-                Debug.Log(rigidbody.position + "; " + rigidbody.position.magnitude + "; " + (preMovePos.magnitude + deltaPosition.magnitude));
+                rigidbody.MovePosition(preMovePos + deltaPosition);
             }
         }
     }
